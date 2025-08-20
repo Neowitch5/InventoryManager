@@ -8,6 +8,7 @@ Un petit outil simple et efficace pour gérer un inventaire de produits, dévelo
 - Rechercher un produit par nom
 - Afficher l’inventaire complet
 - Sauvegarde automatique dans un fichier `.csv`
+- Possibilté d'exporter le fichier en json
 
 ---
 
