@@ -15,3 +15,5 @@ Un petit outil simple et efficace pour gérer un inventaire de produits, dévelo
 
 - Python 3
 - `csv` pour la gestion des données
+ - Programmation orientée objet
+- Interface utilisateur en ligne de commande
