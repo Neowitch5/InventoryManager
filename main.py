@@ -112,6 +112,27 @@ class InventoryManager:
             print(f'\n Total inventory value: {total:.2f} €')   
         except FileNotFoundError:
             print('Inventory file not found')
+            
+     def export_to_json(self, json_filename='inventory.json'):
+        # Exporte l’inventaire au format JSON
+        inventory_list = []
+        try:
+            with open(self.filename, 'r') as file:
+                for line in file:
+                    parts = line.strip().split(',')
+                    if len(parts) == 4:
+                        item = {
+                            'id': int(parts[0]),
+                            'name': parts[1],
+                            'quantity': int(parts[2]),
+                            'price': float(parts[3])
+                        }
+                        inventory_list.append(item)
+            with open(json_filename, 'w') as json_file:
+                json.dump(inventory_list, json_file, indent=4)
+            print(f'Inventory successfully exported {json_filename}')
+        except FileNotFoundError:
+            print('Inventory file not found.')
 
 
 
@@ -127,7 +148,8 @@ def main():
         print('3. Update an Item')
         print('4. Remove an Item')
         print('5. Total value of Inventory')
-        print('6. Exit')
+        print('6. Export to json')
+        print('7. Exit')
 
         choice = input("Your Choice: ")
         if choice == "1":
@@ -141,6 +163,8 @@ def main():
         elif choice == "5":
             manager.total_value()
         elif choice == "6":
+            manager.export_to_json()
+        elif choice == "7":
             print('Goodbye!')
             break
         else:
