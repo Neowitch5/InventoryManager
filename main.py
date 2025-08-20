@@ -17,6 +17,21 @@ class InventoryManager:
         except FileNotFoundError:
             return 1 # Si le fichier n'existe pas encore
 
+    def ensure_newline(self):
+        # On s'assure que la dernière ligne du csv a bien été sauté, pour éviter les
+        # porblèmes de format:
+    try:
+        with open(self.filename, 'rb+') as file:
+            file.seek(0, 2)  # Aller à la fin du fichier
+            if file.tell() == 0:
+                return  # Fichier vide, rien à faire
+            file.seek(-1, 2)
+            last_char = file.read(1)
+            if last_char != b'\n':
+                file.write(b'\n')  # Ajoute un saut de ligne si manquant
+    except FileNotFoundError:
+        pass  # Le fichier sera créé plus tard
+
 
     def add_to_inventory(self):
         # Ajoute un nouvel article à l'inventaire:
@@ -35,6 +50,7 @@ class InventoryManager:
 
         if confirm.lower() == "y":
             item_id = self.get_next_id()
+            self.ensure_new_line()
             with open(self.filename, 'a') as file:
                 inventory_item = f'{item_id},{name},{quantity},{price}\n'
                 file.writelines(inventory_item)
