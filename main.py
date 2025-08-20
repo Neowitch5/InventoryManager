@@ -1,8 +1,12 @@
+import json  # Pour l'export en JSON
+
 class InventoryManager:
     def __init__(self, filename = 'Inventory.csv'):
+        # On initialise le gestionnaire avec le nom du fichier d'inventaire:
         self.filename = filename
 
     def get_next_id(self):
+        # On génère le prochain ID en lisant la dernière ligne du fichier:
         try:
             with open(self.filename, 'r') as file:
                 lines = file.readlines()
@@ -11,10 +15,11 @@ class InventoryManager:
                 last_line =lines[-1].strip().split(',')
                 return int(last_line[0]) +1
         except FileNotFoundError:
-            return 1
+            return 1 # Si le fichier n'existe pas encore
 
 
     def add_to_inventory(self):
+        # Ajoute un nouvel article à l'inventaire:
         name = str(input('Enter the name of the product:')).capitalize().strip()
         try:
             quantity = int(input(f'Enter a quantity for {name}:'))
@@ -39,6 +44,7 @@ class InventoryManager:
 
 
     def view_inventory(self):
+        # Affiche tous les articles de l'inventaire:
         with open(self.filename, 'r') as file:
             print("📦 INVENTAIRE ACTUEL")
             print("-" * 40)
@@ -51,6 +57,7 @@ class InventoryManager:
                         print('Wrong Format:', line.strip())
 
     def update_inventory(self):
+        # Mettre à jour la quantité ou le prix d’un article:
         item_id = input('Enter item ID to update: ').strip()
         field = input('Update (Q)uantity or (P)rice? ').lower()
         updated = False
@@ -82,6 +89,7 @@ class InventoryManager:
 
 
     def delete_item(self):
+        # Supprimer un article par son nom
         name = input("Item to delete: ").strip().capitalize()
         new_lines = []
         deleted = False
@@ -100,6 +108,7 @@ class InventoryManager:
 
 
     def total_value(self):
+        # Calcule la valeur totale de l’inventaire:
         total = 0
         try:
             with open(self.filename,'r') as file:
@@ -114,7 +123,7 @@ class InventoryManager:
             print('Inventory file not found')
             
      def export_to_json(self, json_filename='inventory.json'):
-        # Exporte l’inventaire au format JSON
+        # Exporter l’inventaire au format JSON:
         inventory_list = []
         try:
             with open(self.filename, 'r') as file:
