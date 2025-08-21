@@ -62,16 +62,19 @@ class InventoryManager:
 
     def view_inventory(self):
         # Affiche tous les articles de l'inventaire:
-        with open(self.filename, 'r') as file:
-            print("📦 INVENTAIRE ACTUEL")
-            print("-" * 40)
-            for line in file:
-                parts = line.strip().split(',')
-                if len(parts) == 4:
-                        id, name, quantity, price = parts
-                        print(f'Id: {id}, Item: {name}, Quantity: {quantity}, Price: {price} €')
-                else:
-                        print('Wrong Format:', line.strip())
+        try:
+            with open(self.filename, 'r') as file:
+                print("📦 INVENTAIRE ACTUEL")
+                print("-" * 40)
+                for line in file:
+                    parts = line.strip().split(',')
+                    if len(parts) == 4:
+                            id, name, quantity, price = parts
+                            print(f'Id: {id}, Item: {name}, Quantity: {quantity}, Price: {price} €')
+                    else:
+                            print('Wrong Format:', line.strip())
+        except FileNotFoundError:
+            print('Inventory file not found. Please add items first.')
 
     def update_inventory(self):
         # Mettre à jour la quantité ou le prix d’un article:
