@@ -5,7 +5,7 @@ Un petit outil simple et efficace pour gérer un inventaire de produits, dévelo
 
 - Ajouter un produit avec nom, quantité et prix
 - Supprimer ou modifier un produit existant
-- Rechercher un produit par nom
+- Rechercher un produit par ID
 - Afficher l’inventaire complet
 - Sauvegarde automatique dans un fichier `.csv`
 - Possibilté d'exporter le fichier en json
