@@ -36,23 +36,24 @@ class InventoryManager:
     def add_to_inventory(self):
         # Ajoute un nouvel article à l'inventaire:
         name = str(input('Enter the name of the product:')).capitalize().strip()
+        cleaned_name = ''.join(char for char in name if char.isalnum() or char.isspace()).strip().capitalize()
         try:
-            quantity = int(input(f'Enter a quantity for {name}:'))
+            quantity = int(input(f'Enter a quantity for {cleaned_name}:'))
         except ValueError:
             print('Invalid Quantity!')
             return
         try:
-            price = float(input(f'Enter the price of {name}:'))
+            price = float(input(f'Enter the price of {cleaned_name}:'))
         except ValueError:
             print('Invalid Price!')
             return
-        confirm = input(f'Do you want to add {quantity} {name} with price {price} € to the inventory? (y or n)')
+        confirm = input(f'Do you want to add {quantity} {cleaned_name} with price {price} € to the inventory? (y or n)')
 
         if confirm.lower() == "y":
             item_id = self.get_next_id()
-            self.ensure_new_line()
+            self.ensure_newline()
             with open(self.filename, 'a') as file:
-                inventory_item = f'{item_id},{name},{quantity},{price}\n'
+                inventory_item = f'{item_id},{cleaned_name},{quantity},{price}\n'
                 file.writelines(inventory_item)
                 print(f'{name} successfully added to the inventory!')
         else: 
@@ -68,7 +69,7 @@ class InventoryManager:
                 parts = line.strip().split(',')
                 if len(parts) == 4:
                         id, name, quantity, price = parts
-                        print(f'Id: {id},Item: {name}, Quantity: {quantity}, Price: {price} €')
+                        print(f'Id: {id}, Item: {name}, Quantity: {quantity}, Price: {price} €')
                 else:
                         print('Wrong Format:', line.strip())
 
@@ -102,7 +103,6 @@ class InventoryManager:
         else:
             print('Item not found.')
         
-
 
     def delete_item(self):
         # Supprimer un article par son nom
